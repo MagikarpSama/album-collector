@@ -1,13 +1,14 @@
 # Archivos y carpetas a ignorar por Git
-/target/
+/target/*.jar
+/target/*.war
+/target/*.ear
+/target/*SNAPSHOT*
+*.log
 /.idea/
 *.iml
-*.log
 /.vscode/
 /uploads/
 *.class
-*.jar
-*.war
 *.db
 .DS_Store
 Thumbs.db

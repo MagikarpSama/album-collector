@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Lámina</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/albums">Album Collector</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/albums">Álbumes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/laminas">Láminas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/laminas/todas">Láminas Agrupadas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/faltantes">Faltantes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/repetidas">Repetidas</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+    <h2>Nueva Lámina</h2>
+    <form th:action="@{/laminas/nueva}" th:object="${lamina}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
+        </div>
+          <div class="mb-3">
+            <label for="imagen" class="form-label">Imagen (URL o archivo)</label>
+            <input type="text" class="form-control mb-2" id="imagen" th:field="*{imagen}" placeholder="URL de la imagen">
+            <input type="file" class="form-control" id="imagenFile" name="imagenFile">
+        </div>
+            <input type="text" class="form-control mb-2" id="imagen" th:field="*{imagen}" placeholder="URL de la imagen" th:classappend="${#fields.hasErrors('imagen')}? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('imagen')}" th:errors="*{imagen}"></div>
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <select class="form-select" id="estado" th:field="*{estado}" th:classappend="${#fields.hasErrors('estado')}? 'is-invalid'" required>
+            <option value="">Selecciona...</option>
+            <option value="obtenida">Obtenida</option>
+            <option value="no_obtenida">No obtenida</option>
+            <option value="duplicada">Duplicada</option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></div>
+        </div>
+        <div class="mb-3">
+          <label for="tipoLamina" class="form-label">Tipo de Lámina</label>
+          <select class="form-select" id="tipoLamina" th:field="*{tipoLamina}" th:classappend="${#fields.hasErrors('tipoLamina')}? 'is-invalid'" required>
+            <option value="">Selecciona...</option>
+            <option value="rara">Rara</option>
+            <option value="poco_comun">Poco común</option>
+            <option value="comun">Común</option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('tipoLamina')}" th:errors="*{tipoLamina}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="cantidadRepetidas" class="form-label">Cantidad Repetidas</label>
+            <input type="number" class="form-control" id="cantidadRepetidas" th:field="*{cantidadRepetidas}" min="0">
+        </div>
+            <input type="number" class="form-control" id="cantidadRepetidas" th:field="*{cantidadRepetidas}" th:classappend="${#fields.hasErrors('cantidadRepetidas')}? 'is-invalid'" min="0">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('cantidadRepetidas')}" th:errors="*{cantidadRepetidas}"></div>
+        <div class="mb-3">
+            <label for="album" class="form-label">Álbum</label>
+            <select class="form-select" id="album" th:field="*{album.id}" required>
+                <option th:each="album : ${albums}" th:value="${album.id}" th:text="${album.nombre}"></option>
+            </select>
+        </div>
+            <select class="form-select" id="album" th:field="*{album.id}" th:classappend="${#fields.hasErrors('album')}? 'is-invalid'" required>
+              <option th:each="album : ${albums}" th:value="${album.id}" th:text="${album.nombre}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('album')}" th:errors="*{album}"></div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/laminas" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
